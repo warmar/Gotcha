@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import * as firebase from 'firebase';
+
+var config = {
+  apiKey: "AIzaSyDEc-iwuIh_WC-QZ6en4VdKXel6MR1kNAE",
+  authDomain: "gotchahacknehs.firebaseapp.com",
+  databaseURL: "https://gotchahacknehs.firebaseio.com",
+  projectId: "gotchahacknehs",
+  storageBucket: "gotchahacknehs.appspot.com",
+  messagingSenderId: "729750595858"
+};
+firebase.initializeApp(config);
 
 class App extends Component {
   render() {
