@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
+import OutButton from './components/OutButton';
+import LoginButton from './components/LoginButton';
 
 var config = {
   apiKey: "AIzaSyDEc-iwuIh_WC-QZ6en4VdKXel6MR1kNAE",
@@ -103,26 +104,83 @@ class App extends Component {
   }
 
   render() {
+    // Login Button
+    var loginButton = null;
+    if (this.state.user === null) {
+      //loginButton = <button onClick={this.login}>Login</button>
+      loginButton = <LoginButton login={this.login} />
+    }
+
+    // Sign Out Button
+    var signOutButton = null;
+    if (this.state.user !== null) {
+      signOutButton = <button onClick={this.signOut}>Sign Out</button>
+    }
+
+    // Logged In
+    var loggedIn = null;
+    if (this.state.user !== null) {
+      loggedIn = 
+      <div>
+        <br/>
+        Logged in as {this.state.user.displayName}
+      </div>;
+    }
+
+    // Out
+    var out = null;
+    if (this.state.out === true) {
+      out = 
+      <div>
+        <br/>
+        You are out
+      </div>;
+    }
+
+    // Number of Tags
+    var numTags = null;
+    if (this.state.numTags !== null) {
+      numTags = 
+      <div>
+        <br/>
+        You have {this.state.numTags} tags
+      </div>;
+    }
+    
+    // Target
+    var target = null;
+    if (this.state.target !== null) {
+      target = 
+      <div>
+        <br/>
+        Your target is: {this.state.target}
+      </div>;
+    }
+
+    // Out Button
+    var outButton = null;
+    if (this.state.out !== null && !this.state.out) {
+      outButton =
+        <div>
+          <br/>
+          <OutButton gotOut={this.gotOut} />
+        </div>;
+    }
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Gotcha</h1>
-        </header>
-        <p className="App-intro">
-          <button onClick={this.login}>Login</button>
-          <button onClick={this.signOut}>Sign Out</button>
-          <br />
-          Logged in as: {this.state.user ? this.state.user.email : null}
-          <br />
-          You are {this.state.out ? null: "not "}out
-          <br />
-          You have {this.state.numTags} tags
-          <br />
-          Your target is: {this.state.target}
-          <br />
-          <button onClick={this.gotOut}>I got out</button>
-        </p>
+        <div className="title-bar">
+          <span className="title-text centered">Gotcha</span>
+        </div>
+        <div className="main-body">
+          {loginButton}
+          {signOutButton}
+          {loggedIn}
+          {out}
+          {numTags}
+          {target}
+          {outButton}
+        </div>
       </div>
     );
   }
