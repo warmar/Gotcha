@@ -17,12 +17,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null
+      user: null,
+      target: null,
+      numTags: null,
+      out: null
     };
 
     this.login = this.login.bind(this);
     this.signOut = this.signOut.bind(this);
     this.gotOut = this.gotOut.bind(this);
+    this.registerDatabaseListeners = this.registerDatabaseListeners.bind(this);
   }
 
   login() {
@@ -36,16 +40,14 @@ class App extends Component {
       var user = result.user;
 
       this.setState({
-        email: user.email
+        user: user
       });
+
+      this.registerDatabaseListeners();
     }).catch((error) => {
       // Handle Login Errors
       console.log(error)
     });
-  }
-
-  gotOut() {
-
   }
 
   signOut() {
@@ -53,11 +55,27 @@ class App extends Component {
       // Sign-out successful.
       console.log('Successfully signed out')
       this.setState({
-        email: null
+        user: null,
+        target: null,
+        numTags: null,
+        out: null
       });
     }).catch((error) => {
       // An error happened.
       console.log('Error while signing out')
+    });
+  }
+
+  gotOut() {
+    
+  }
+
+  registerDatabaseListeners() {
+    var database = firebase.database()
+    database.ref(`/targets/${this.state.user.email.replace('.', '')}`).on('value', (snapshot) => {
+      this.setState({
+        target: snapshot.val().name
+      })
     });
   }
 
@@ -71,7 +89,12 @@ class App extends Component {
         <p className="App-intro">
           <button onClick={this.login}>Login</button>
           <button onClick={this.signOut}>Sign Out</button>
-          {this.state.email}
+          <br />
+          Logged in as: {this.state.user ? this.state.user.email : null}
+          <br />
+          Your target is: {this.state.target}
+          <br />
+          <button onClick={this.gotOut}>I got out</button>
         </p>
       </div>
     );
