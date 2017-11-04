@@ -5,6 +5,20 @@
         ".read": "$email === auth.email.replace('.','')"
       }
     },
+    "out": {
+      "$email": {
+        ".read": "$email === auth.email.replace('.','')"
+      }
+    },
+    "names": {
+      ".read": "true"
+    },
+    "numTags": {
+      ".read": "true"
+    },
+    "tags": {
+      ".read": "true"
+    },
     ".read": "false",
     ".write": "false"
   }
