@@ -67,15 +67,37 @@ class App extends Component {
   }
 
   gotOut() {
-    
+    var database = firebase.database()
   }
 
   registerDatabaseListeners() {
     var database = firebase.database()
-    database.ref(`/targets/${this.state.user.email.replace('.', '')}`).on('value', (snapshot) => {
+    var email = this.state.user.email.replace('.', '')
+    // Get Out Status
+    database.ref(`/out/${email}`).on('value', (snapshot) => {
+      var out = snapshot.val()
       this.setState({
-        target: snapshot.val().name
-      })
+        out: out
+      });
+    });
+
+    // Get Number of Tags
+    database.ref(`/numTags/${email}`).on('value', (snapshot) => {
+      var numTags = snapshot.val()
+      this.setState({
+        numTags: numTags
+      });
+    });
+
+    // Get Target Email
+    database.ref(`/targets/${email}`).on('value', (snapshot) => {
+      var targetEmail = snapshot.val()
+      database.ref(`/names/${targetEmail}`).on('value', (snapshot) => {
+        var targetName = snapshot.val()
+        this.setState({
+          target: targetName
+        });
+      });
     });
   }
 
@@ -91,6 +113,10 @@ class App extends Component {
           <button onClick={this.signOut}>Sign Out</button>
           <br />
           Logged in as: {this.state.user ? this.state.user.email : null}
+          <br />
+          You are {this.state.out ? null: "not "}out
+          <br />
+          You have {this.state.numTags} tags
           <br />
           Your target is: {this.state.target}
           <br />
