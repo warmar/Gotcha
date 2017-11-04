@@ -25,11 +25,11 @@ taggers = {}
 for i, person in enumerate(shuffled_people):
     if i == len(shuffled_people) - 1:
         target_email = shuffled_people[0]['email']
-        targets[person['email']] = target_email
+        targets[person['email']] = shuffled_people[0]
         taggers[target_email] = person['email']
     else:
         target_email = shuffled_people[i+1]['email']
-        targets[person['email']] = target_email
+        targets[person['email']] = shuffled_people[i+1]
         taggers[target_email] = person['email']
 
 pprint(targets)
