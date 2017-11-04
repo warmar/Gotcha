@@ -3,6 +3,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
 import GradientButton from './components/GradientButton';
+import OutList from './components/OutList';
 
 var config = {
   apiKey: "AIzaSyDEc-iwuIh_WC-QZ6en4VdKXel6MR1kNAE",
@@ -21,7 +22,8 @@ class App extends Component {
       user: null,
       target: null,
       numTags: null,
-      out: null
+      out: null,
+      people: []
     };
 
     this.login = this.login.bind(this);
@@ -73,8 +75,8 @@ class App extends Component {
   }
 
   registerDatabaseListeners() {
-    var database = firebase.database()
-    var email = this.state.user.email.replace('.', '')
+    var database = firebase.database();
+    var email = this.state.user.email.replace('.', '');
     // Get Out Status
     database.ref(`/out/${email}`).on('value', (snapshot) => {
       var out = snapshot.val()
@@ -100,6 +102,41 @@ class App extends Component {
           target: targetName
         });
       });
+    });
+
+    // Outs Table
+    database.ref('/tags').on('value', (snapshot) => {
+      var tags = snapshot.val();
+
+      if (!tags) {
+        return null;
+      }
+
+      var people = []
+      var promises = []
+
+      for (var key in tags) {
+        var person = tags[key];
+        var taggedEmail = person.tagged
+        promises.push(
+          database.ref(`/names/${taggedEmail}`).once('value').then((snap) => {
+            var name = snap.val();
+            var timestamp = person.timestamp;
+            people.push({
+              name: name,
+              whenOut: timestamp,
+              isOut: true
+            });
+          })
+        );
+      }
+
+      Promise.all(promises).then(() => {        
+        this.setState({
+          people: people
+        });
+        console.log(people);
+      })
     });
   }
 
@@ -175,7 +212,7 @@ class App extends Component {
           <div className='sign-out-button'>
             {signOutButton}
           </div>
-          <div className='centered'>
+          <div className='sign-in-button'>
             {loginButton}
           </div>
           <div className="info-box">
@@ -184,6 +221,7 @@ class App extends Component {
             {numTags}
             {target}
             {outButton}
+            {(this.state.user === null) ? null : <OutList people={this.state.people} />}
           </div>
         </div>
       </div>

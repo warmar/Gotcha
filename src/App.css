@@ -31,7 +31,7 @@ html, body {
   position: absolute;
   top: 150px;
   left: 0%;
-  height: calc(100% - 150px);
+  height: calc(100% - 150px + 500px);
   width: 100%;
   font-size: x-large;
   background-color: #555;
@@ -55,6 +55,13 @@ html, body {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.sign-in-button {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 @keyframes titleFade {
