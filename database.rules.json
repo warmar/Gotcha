@@ -1,6 +1,11 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "targets": {
+      "$email": {
+        ".read": "$email === auth.email.replace('.','')"
+      }
+    },
+    ".read": "false",
+    ".write": "false"
   }
 }
