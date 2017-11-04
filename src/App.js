@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
-import LoginButton from './components/LoginButton';
+import GradientButton from './components/GradientButton';
 
 var config = {
   apiKey: "AIzaSyDEc-iwuIh_WC-QZ6en4VdKXel6MR1kNAE",
@@ -108,13 +108,13 @@ class App extends Component {
     var loginButton = null;
     if (this.state.user === null) {
       //loginButton = <button onClick={this.login}>Login</button>
-      loginButton = <LoginButton login={this.login} />
+      loginButton = <GradientButton onClick={this.login} buttonText="Log In" />
     }
 
     // Sign Out Button
     var signOutButton = null;
     if (this.state.user !== null) {
-      signOutButton = <button onClick={this.signOut}>Sign Out</button>
+      signOutButton = <GradientButton onClick={this.signOut} buttonText="Sign Out" />
     }
 
     // Logged In
@@ -122,7 +122,6 @@ class App extends Component {
     if (this.state.user !== null) {
       loggedIn = 
       <div>
-        <br/>
         Logged in as {this.state.user.displayName}
       </div>;
     }
@@ -173,13 +172,19 @@ class App extends Component {
           <span className="title-text centered">Gotcha</span>
         </div>
         <div className="main-body">
-          {loginButton}
-          {signOutButton}
-          {loggedIn}
-          {out}
-          {numTags}
-          {target}
-          {outButton}
+          <div className='sign-out-button'>
+            {signOutButton}
+          </div>
+          <div className='centered'>
+            {loginButton}
+          </div>
+          <div className="info-box">
+            {loggedIn}
+            {out}
+            {numTags}
+            {target}
+            {outButton}
+          </div>
         </div>
       </div>
     );
