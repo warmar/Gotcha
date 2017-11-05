@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './video.css';
 import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
 import GradientButton from './components/GradientButton';
@@ -209,6 +210,10 @@ class App extends Component {
           <span className="title-text centered">Gotcha</span>
         </div>
         <div className="main-body">
+        <video poster="http://polycache.000webhostapp.com/public/thumb.jpg" id="bgvid" playsInline autoPlay muted loop>
+          <source src="http://polycache.000webhostapp.com/public/ghb.webm" type="video/webm" />
+          </video>
+          <script src="video.js" type="text/jsx"></script>
           <div className='sign-out-button'>
             {signOutButton}
           </div>

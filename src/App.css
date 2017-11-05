@@ -34,7 +34,8 @@ html, body {
   height: calc(100% - 150px + 500px);
   width: 100%;
   font-size: x-large;
-  background-color: #555;
+  color: white;
+  background: none;
 }
 
 .info-box{
