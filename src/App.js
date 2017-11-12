@@ -7,12 +7,12 @@ import GradientButton from './components/GradientButton';
 import OutList from './components/OutList';
 
 var config = {
-  apiKey: "AIzaSyDEc-iwuIh_WC-QZ6en4VdKXel6MR1kNAE",
-  authDomain: "gotchahacknehs.firebaseapp.com",
-  databaseURL: "https://gotchahacknehs.firebaseio.com",
-  projectId: "gotchahacknehs",
-  storageBucket: "gotchahacknehs.appspot.com",
-  messagingSenderId: "729750595858"
+  apiKey: "AIzaSyCpxiNaL8jD0uvTZvEsM_hD9VF_pDSD5o0",
+  authDomain: "magotcha2017.firebaseapp.com",
+  databaseURL: "https://magotcha2017.firebaseio.com",
+  projectId: "magotcha2017",
+  storageBucket: "magotcha2017.appspot.com",
+  messagingSenderId: "869056738532"
 };
 firebase.initializeApp(config);
 
