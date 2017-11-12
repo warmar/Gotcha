@@ -21,6 +21,7 @@ class App extends Component {
     super(props);
     this.state = {
       user: null,
+      unknownUser: null,
       target: null,
       numTags: null,
       out: null,
@@ -57,9 +58,11 @@ class App extends Component {
       console.log('Successfully signed out')
       this.setState({
         user: null,
+        unknownUser: null,
         target: null,
         numTags: null,
-        out: null
+        out: null,
+        people: []
       });
     }).catch((error) => {
       // An error happened.
@@ -80,9 +83,18 @@ class App extends Component {
   registerDatabaseListeners() {
     var database = firebase.database();
     var email = this.state.user.email.replace('.', '');
+
     // Get Out Status
     database.ref(`/out/${email}`).on('value', (snapshot) => {
       var out = snapshot.val()
+
+      // Check if user is known
+      if (out === null){
+        this.setState({
+          unknownUser: true
+        });
+      }
+
       this.setState({
         out: out
       });
@@ -173,6 +185,21 @@ class App extends Component {
       </div>;
     }
 
+    var unknownUser = null;
+    if (this.state.unknownUser === true) {
+      unknownUser = 
+      <div style={{fontSize: '0.7em'}}>
+        <br/>
+        Sorry, you are not on the list.
+        <br/>
+        Please contact
+        <br/>
+        warwick_marangos18@milton.edu
+        <br/>
+        if you believe this is an error.
+      </div>
+    }
+
     // Out
     var out = null;
     if (this.state.out === true) {
@@ -230,6 +257,7 @@ class App extends Component {
           {signOutButton}
           <div className="info-box">
             {loggedIn}
+            {unknownUser}
             {out}
             {numTags}
             {target}
