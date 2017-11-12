@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import './video.css';
 import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
-import GradientButton from './components/GradientButton';
-import OutList from './components/OutList';
+import SignInButton from './components/SignInButton';
+import TopIconButton from './components/TopIconButton';
+//import OutList from './components/OutList';
 
 var config = {
   apiKey: "AIzaSyCpxiNaL8jD0uvTZvEsM_hD9VF_pDSD5o0",
@@ -37,10 +37,7 @@ class App extends Component {
     var provider = new firebase.auth.GoogleAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then((result) => {
-      // Handle Login
-
-      //var token = result.credential.accessToken;
-      
+      // Handle Login      
       var user = result.user;
 
       this.setState({
@@ -68,6 +65,11 @@ class App extends Component {
       // An error happened.
       console.log('Error while signing out')
     });
+  }
+
+  showHelp() {
+    //TODO: SHOW HELP PAGE
+    alert('help.');
   }
 
   gotOut() {
@@ -143,16 +145,21 @@ class App extends Component {
 
   render() {
     // Login Button
-    var loginButton = null;
+    var signInButton = null;
     if (this.state.user === null) {
       //loginButton = <button onClick={this.login}>Login</button>
-      loginButton = <GradientButton onClick={this.login} buttonText="Log In" />
+      signInButton = <SignInButton onClick={this.login} buttonText="Log In" />
     }
-
+ 
     // Sign Out Button
     var signOutButton = null;
     if (this.state.user !== null) {
-      signOutButton = <GradientButton onClick={this.signOut} buttonText="Sign Out" />
+      signOutButton = <TopIconButton id="sign-out-button" onClick={this.signOut} image={require('./images/sign-out-icon.png')} />
+    }
+
+    var helpButton = null;
+    if (this.state.user !== null) {
+      helpButton = <TopIconButton id="help-button" onClick={this.showHelp} image={require('./images/help-icon.png')} />
     }
 
     // Logged In
@@ -160,7 +167,9 @@ class App extends Component {
     if (this.state.user !== null) {
       loggedIn = 
       <div>
-        Logged in as {this.state.user.displayName}
+        Logged in as:
+        <br/>
+        {this.state.user.displayName}
       </div>;
     }
 
@@ -210,23 +219,22 @@ class App extends Component {
           <span className="title-text centered">Gotcha</span>
         </div>
         <div className="main-body">
-        <video poster="http://polycache.000webhostapp.com/public/thumb.jpg" id="bgvid" playsInline autoPlay muted loop>
-          <source src="http://polycache.000webhostapp.com/public/ghb.webm" type="video/webm" />
-          </video>
-          <script src="video.js" type="text/jsx"></script>
-          <div className='sign-out-button'>
-            {signOutButton}
+          <div className="main-body-background">
+            <video className="background-video" poster={require('./images/background-poster.jpg')} autoPlay loop muted playsInline>
+              <source src={require('./images/background-video.mp4')} type="video/mp4" />
+            </video>
           </div>
-          <div className='sign-in-button'>
-            {loginButton}
-          </div>
+
+          {signInButton}
+          {helpButton}
+          {signOutButton}
           <div className="info-box">
             {loggedIn}
             {out}
             {numTags}
             {target}
             {outButton}
-            {(this.state.user === null) ? null : <OutList people={this.state.people} />}
+            {/*(this.state.user === null) ? null : <OutList people={this.state.people} />*/}
           </div>
         </div>
       </div>

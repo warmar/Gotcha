@@ -1,0 +1,14 @@
+.top-icon-button {
+  position: absolute;
+  cursor: pointer;
+  padding: 10px;
+  border: 2px solid lightgrey;
+  width: 40px;
+  height: 40px;
+}
+
+.top-icon-button-image {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
