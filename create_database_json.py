@@ -4,8 +4,9 @@ from pprint import pprint
 import random
 import copy
 import json
+import sys
 
-TEST = False
+TEST = '--test' in sys.argv
 
 with open('people.csv' if not TEST else 'people-test.csv', 'r') as people_file:
     raw_people = people_file.read()
