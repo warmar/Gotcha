@@ -18,13 +18,13 @@
       }
     },
     "names": {
-      ".read": "true"
+      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
     },
     "numTags": {
-      ".read": "true"
+      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
     },
     "tags": {
-      ".read": "true"
+      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
     },
     ".read": "false",
     ".write": "false"
