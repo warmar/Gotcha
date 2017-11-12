@@ -27,9 +27,9 @@ class OutList extends Component {
       var timestampString = month.toString() + "/" + day.toString() + "/" + year.toString() + ", " + hours + ":" + minutes.toString();
 
       var person_info = [];
-      person_info.push(<th>{timestampString}</th>);
       person_info.push(<th>{person.name}</th>);
       person_info.push(<th>{person.class}</th>);
+      person_info.push(<th>{timestampString}</th>);
       rows.push(<tr>{person_info}</tr>);
     };
 
@@ -40,10 +40,9 @@ class OutList extends Component {
           <table cellPadding="0" cellSpacing="0" border="0">
             <thead>
               <tr>
-                <th>Time</th>
                 <th>Name</th>
                 <th>Class</th>
-                {/*<th>Tags</th>*/}
+                <th>Time</th>
               </tr>
             </thead>
           </table>
