@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
 import SignInButton from './components/SignInButton';
 import TopIconButton from './components/TopIconButton';
-//import OutList from './components/OutList';
+import OutList from './components/OutList';
 
 var config = {
   apiKey: "AIzaSyCpxiNaL8jD0uvTZvEsM_hD9VF_pDSD5o0",
@@ -119,39 +119,47 @@ class App extends Component {
       });
     });
 
-    // Outs Table
+    // Outs
     database.ref('/tags').on('value', (snapshot) => {
-      var tags = snapshot.val();
+      const tags = snapshot.val();
 
       if (!tags) {
         return null;
       }
 
-      var people = []
-      var promises = []
+      var people = [];
 
-      for (var key in tags) {
-        var person = tags[key];
-        var taggedEmail = person.tagged
-        promises.push(
-          database.ref(`/names/${taggedEmail}`).once('value').then((snap) => {
-            var name = snap.val();
-            var timestamp = person.timestamp;
+      // Get Names
+      database.ref('/names').once('value').then((snapshot) => {
+        const names = snapshot.val();
+
+        // Get Classes
+        database.ref('/classes').once('value').then((snapshot) => {
+          const classes = snapshot.val();
+
+          for (var key in tags) {
+            const tag = tags[key];
+            const taggedEmail = tag.tagged;
+            const classString = {
+              1: 'I',
+              2: 'II',
+              3: 'III',
+              4: 'IV'
+            }[classes[taggedEmail]]
+  
             people.push({
-              name: name,
-              whenOut: timestamp,
-              isOut: true
+              name: names[taggedEmail],
+              class: classString,
+              timestamp: tag.timestamp
             });
-          })
-        );
-      }
+          }
 
-      Promise.all(promises).then(() => {        
-        this.setState({
-          people: people
+          this.setState({
+            people: people
+          });
         });
-        console.log(people);
-      })
+      });
+
     });
   }
 
@@ -252,17 +260,20 @@ class App extends Component {
             </video>
           </div>
 
-          {signInButton}
-          {helpButton}
-          {signOutButton}
-          <div className="info-box">
-            {loggedIn}
-            {unknownUser}
-            {out}
-            {numTags}
-            {target}
-            {outButton}
-            {/*(this.state.user === null) ? null : <OutList people={this.state.people} />*/}
+          <div className="main-body-content">
+            {signInButton}
+            {helpButton}
+            {signOutButton}
+            <div className="info-box">
+              {loggedIn}
+              {unknownUser}
+              {out}
+              {numTags}
+              {target}
+              {outButton}
+              {(this.state.user === null) ? null : <OutList people={this.state.people} />}
+              <br/>
+            </div>
           </div>
         </div>
       </div>

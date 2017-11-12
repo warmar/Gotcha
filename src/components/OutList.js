@@ -1,50 +1,54 @@
 import React, { Component } from 'react';
-import "./Table.css";
+import "./OutList.css";
 
 class OutList extends Component {
 
   render() {
-    var rows = [];
+    // Sort people by timestamp
     this.props.people.sort(function(a, b) {
-      return parseFloat(b.whenOut) - parseFloat(a.whenOut);
+      return b.timestamp - a.timestamp;
     });
+    
+    var rows = [];
     for (var i=0; i<this.props.people.length; i++){
       var person = this.props.people[i];
-      if(person.isOut) {
-        var date = new Date(person.whenOut);
-        var hours = date.getHours();
-        var minutes = "" + date.getMinutes();
-        var seconds = "0" + date.getSeconds();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var year = date.getFullYear();
-        var whenOut = month.toString() + "/" + day.toString() + "/" + year.toString() + ", " + hours + ":" + minutes.toString();
 
-        var person_info = [];
-        person_info.push(<th>{whenOut}</th>);
-        person_info.push(<th>{person.name}</th>);
-        rows.push(<tr>{person_info}</tr>);
+      var date = new Date(person.timestamp);
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+
+      if (minutes.toString().length === 1) {
+        minutes = '0' + minutes;
       }
-    };
 
-    console.log(rows);
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var year = date.getFullYear();
+      var timestampString = month.toString() + "/" + day.toString() + "/" + year.toString() + ", " + hours + ":" + minutes.toString();
+
+      var person_info = [];
+      person_info.push(<th>{timestampString}</th>);
+      person_info.push(<th>{person.name}</th>);
+      person_info.push(<th>{person.class}</th>);
+      rows.push(<tr>{person_info}</tr>);
+    };
 
     return (
       <section>
-        <h1>Who&#39;s Out?</h1>
-        <div className="tbl-header">
+        <h1>Who's Out?</h1>
+        <div className="outlist-header">
           <table cellPadding="0" cellSpacing="0" border="0">
             <thead>
               <tr>
-                <th>Time Caught</th>
+                <th>Time</th>
                 <th>Name</th>
-                {/*<th>Grade</th>*/}
+                <th>Class</th>
                 {/*<th>Tags</th>*/}
               </tr>
             </thead>
           </table>
         </div>
-        <div className="tbl-content">
+        <div className="outlist-content">
           <table cellPadding="0" cellSpacing="0" border="0">
             <tbody>
               {rows}
@@ -52,7 +56,6 @@ class OutList extends Component {
           </table>
         </div>
       </section>
-
     );
   }
 
