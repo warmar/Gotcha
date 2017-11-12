@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
 import SignInButton from './components/SignInButton';
 import TopIconButton from './components/TopIconButton';
+import Leaderboard from './components/Leaderboard'
 import OutList from './components/OutList';
 
 var config = {
@@ -27,7 +28,8 @@ class App extends Component {
       out: null,
       names: null,
       classes: null,
-      outPeople: []
+      outPeople: [],
+      leaders: []
     };
 
     this.login = this.login.bind(this);
@@ -66,7 +68,8 @@ class App extends Component {
         out: null,
         names: null,
         classes: null,
-        outPeople: []
+        outPeople: [],
+        leaders: []
       });
     }).catch((error) => {
       // An error happened.
@@ -141,6 +144,40 @@ class App extends Component {
       });
     });
 
+    // Leaders
+    database.ref('/numTags').on('value', (snapshot) => {
+      const people = snapshot.val();
+
+      if (!people) {
+        return null;
+      }
+
+      var leaders = [];
+      for (var email in people) {
+        const numTags = people[email];
+
+        if (!numTags > 0){
+          continue;
+        }
+
+        const classString = {
+          1: 'I',
+          2: 'II',
+          3: 'III',
+          4: 'IV'
+        }[this.state.classes[email]]
+
+        leaders.push({
+          name: this.state.names[email],
+          class: classString,
+          tags: numTags
+        });
+      }
+      this.setState({
+        leaders: leaders
+      });
+    });
+
     // Outs
     database.ref('/tags').on('value', (snapshot) => {
       const tags = snapshot.val();
@@ -166,11 +203,9 @@ class App extends Component {
           timestamp: tag.timestamp
         });
       }
-
       this.setState({
         outPeople: outPeople
       });
-
     });
   }
 
@@ -282,6 +317,7 @@ class App extends Component {
               {numTags}
               {target}
               {outButton}
+              {(this.state.user === null) ? null : <Leaderboard people={this.state.leaders} />}
               {(this.state.user === null) ? null : <OutList people={this.state.outPeople} />}
               <br/>
             </div>
