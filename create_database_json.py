@@ -1,20 +1,24 @@
-# Reads people.csv - Header : Email, Name
+# Reads people.csv - Header : Email, Name, Class, Graduation Year
 
 from pprint import pprint
 import random
 import copy
 import json
 
-with open('people.csv', 'r') as people_file:
+TEST = False
+
+with open('people.csv' if not TEST else 'people-test.csv', 'r') as people_file:
     raw_people = people_file.read()
 
 people = []
 for person in raw_people.split('\n')[1:]:
-    email, name = person.split(',')
+    email, name, class_number, year = person.split(',')
     email = email.replace('.', '')
     person = {
         'email': email,
-        'name': name
+        'name': name,
+        'class': class_number,
+        'year': year
     }
     people.append(person)
 
@@ -26,6 +30,7 @@ taggers = {}
 out = {}
 names = {}
 numTags = {}
+classes = {}
 for i, person in enumerate(shuffled_people):
     if i == len(shuffled_people) - 1:
         target_email = shuffled_people[0]['email']
@@ -39,13 +44,15 @@ for i, person in enumerate(shuffled_people):
     out[person['email']] = False
     names[person['email']] = person['name']
     numTags[person['email']] = 0
+    classes[person['email']] = person['class']
 
 database = {
     'targets': targets,
     'taggers': taggers,
     'out': out,
     'names': names,
-    'numTags': numTags
+    'numTags': numTags,
+    'classes': classes
 }
 
 with open('database.json', 'w') as database_file:

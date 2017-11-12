@@ -20,6 +20,9 @@
     "names": {
       ".read": "auth.email.matches(/.*@milton\\.edu$/)"
     },
+    "classes": {
+      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
+    },
     "numTags": {
       ".read": "auth.email.matches(/.*@milton\\.edu$/)"
     },
