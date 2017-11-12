@@ -5,8 +5,8 @@ class TopIconButton extends Component {
 
   render() {
     return (
-        <div id={this.props.id} className="top-icon-button">
-          <img className="top-icon-button-image centered" alt="Sign Out" src={this.props.image} onClick={this.props.onClick} />
+        <div id={this.props.id} className="top-icon-button" onClick={this.props.onClick}>
+          <img className="top-icon-button-image centered" alt={this.props.id} src={this.props.image} />
         </div>
     );
   }
