@@ -280,7 +280,9 @@ class App extends Component {
       target = 
       <div>
         <br/>
-        Your target is: {this.state.target}
+        Your target is:
+        <br/>
+        {this.state.target}
       </div>;
     }
 
