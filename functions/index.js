@@ -11,85 +11,67 @@ admin.initializeApp(functions.config().firebase);
 
 const ref = admin.database().ref();
 
-exports.registerNewUser = functions.auth.user().onCreate(event => {
-    const user = event.data
-  
-    const uid = user.uid
-    const email = user.email
-    const displayName = user.displayName
-  
-    return ref.child(`/users/${uid}/`).set({
-      "email": email,
-      "displayName": displayName,
-      "gotout": false
-    });
-});
-
-exports.onGotOut = functions.database.ref('/users/{uid}/gotout').onWrite(event => {
-    console.log(event)
+exports.onGotOut = functions.database.ref('/gotout/{email}').onWrite(event => {
+    console.log(event);
   
     if (event.data.current.val() !== true){
         return null;
     }
-    // Read tagged's email
-    const allPromises = ref.child(`/users/${event.params.uid}`).once('value').then((snapshot) => {
-        const taggedUser = snapshot.val();
-        const taggedEmail = taggedUser.email.replace('.', '');
 
-        // Get tagger's email
-        const allPromises = ref.child(`/taggers/${taggedEmail}`).once('value').then((snapshot) => {
-            const taggerEmail = snapshot.val().replace('.', '');
-            
-            // Get tagged's target
-            const allPromises = ref.child(`/targets/${taggedEmail}`).once('value').then((snapshot) => {
-                const taggedTarget = snapshot.val();
+    const taggedEmail = event.params.email;
 
-                var promises = []
+    // Get tagger's email
+    const allPromises = ref.child(`/taggers/${taggedEmail}`).once('value').then((snapshot) => {
+        const taggerEmail = snapshot.val().replace('.', '');
+        
+        // Get tagged's target
+        const allPromises = ref.child(`/targets/${taggedEmail}`).once('value').then((snapshot) => {
+            const taggedTarget = snapshot.val();
 
-                // Set tagged's out to true
-                promises.push(
-                    ref.child(`/out/${taggedEmail}`).set(true)
-                );
-                // Set tagged's target to null
-                promises.push(
-                    ref.child(`/targets/${taggedEmail}`).set(null)
-                );
+            var promises = [];
 
-                // Set tagged's tagger to null
-                promises.push(
-                    ref.child(`/taggers/${taggedEmail}`).set(null)
-                );
+            // Set tagged's out to true
+            promises.push(
+                ref.child(`/out/${taggedEmail}`).set(true)
+            );
+            // Set tagged's target to null
+            promises.push(
+                ref.child(`/targets/${taggedEmail}`).set(null)
+            );
 
-                // Set tagger's target to tagged's target
-                promises.push(
-                    ref.child(`/targets/${taggerEmail}`).set(taggedTarget)
-                );
+            // Set tagged's tagger to null
+            promises.push(
+                ref.child(`/taggers/${taggedEmail}`).set(null)
+            );
 
-                // Set tagged's target's tagger to tagger
-                promises.push(
-                    ref.child(`/taggers/${taggedTarget}`).set(taggerEmail)
-                );
+            // Set tagger's target to tagged's target
+            promises.push(
+                ref.child(`/targets/${taggerEmail}`).set(taggedTarget)
+            );
 
-                // Update tagger's tag count
-                ref.child(`/numTags/${taggerEmail}`).once('value').then((snapshot) => {
-                    numTags = snapshot.val();
-                    return ref.child(`/numTags/${taggerEmail}`).set(numTags+1);
-                });
+            // Set tagged's target's tagger to tagger
+            promises.push(
+                ref.child(`/taggers/${taggedTarget}`).set(taggerEmail)
+            );
 
-                // Update tags database
-                promises.push(
-                    ref.child('/tags').push({
-                        timestamp: Date.now(),
-                        tagger: taggerEmail,
-                        tagged: taggedEmail
-                    })
-                );
-
-                return Promise.all(promises)
+            // Update tagger's tag count
+            ref.child(`/numTags/${taggerEmail}`).once('value').then((snapshot) => {
+                numTags = snapshot.val();
+                return ref.child(`/numTags/${taggerEmail}`).set(numTags+1);
             });
-            return allPromises
+
+            // Update tags database
+            promises.push(
+                ref.child('/tags').push({
+                    timestamp: Date.now(),
+                    tagger: taggerEmail,
+                    tagged: taggedEmail
+                })
+            );
+
+            return Promise.all(promises);
         });
-        return allPromises
+        return allPromises;
     });
     return allPromises;
   });

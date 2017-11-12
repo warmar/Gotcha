@@ -1,10 +1,8 @@
 {
   "rules": {
-    "users": {
-      "$uid": {
-        "gotout": {
-          ".write": "$uid === auth.uid"
-        }
+    "gotout": {
+      "$email": {
+        ".write": "$email === auth.email.replace('.','')"
       }
     },
     "targets": {

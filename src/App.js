@@ -72,7 +72,7 @@ class App extends Component {
 
   gotOut() {
     var database = firebase.database();
-    return database.ref(`/users/${this.state.user.uid}/gotout`).set(true);
+    return database.ref(`/gotout/${this.state.user.email.replace('.', '')}`).set(true);
   }
 
   registerDatabaseListeners() {
