@@ -25,7 +25,9 @@ class App extends Component {
       target: null,
       numTags: null,
       out: null,
-      people: []
+      names: null,
+      classes: null,
+      outPeople: []
     };
 
     this.login = this.login.bind(this);
@@ -62,7 +64,9 @@ class App extends Component {
         target: null,
         numTags: null,
         out: null,
-        people: []
+        names: null,
+        classes: null,
+        outPeople: []
       });
     }).catch((error) => {
       // An error happened.
@@ -111,11 +115,29 @@ class App extends Component {
     // Get Target Email
     database.ref(`/targets/${email}`).on('value', (snapshot) => {
       var targetEmail = snapshot.val()
+
+      // Get Target Name
       database.ref(`/names/${targetEmail}`).on('value', (snapshot) => {
         var targetName = snapshot.val()
         this.setState({
           target: targetName
         });
+      });
+    });
+
+    // Get All Names
+    database.ref('/names').once('value').then((snapshot) => {
+      const names = snapshot.val();
+      this.setState({
+        names: names
+      });
+    });
+
+    // Get All Classes
+    database.ref('/classes').once('value').then((snapshot) => {
+      const classes = snapshot.val();
+      this.setState({
+        classes: classes
       });
     });
 
@@ -127,37 +149,26 @@ class App extends Component {
         return null;
       }
 
-      var people = [];
+      var outPeople = [];
+      for (var key in tags) {
+        const tag = tags[key];
+        const taggedEmail = tag.tagged;
+        const classString = {
+          1: 'I',
+          2: 'II',
+          3: 'III',
+          4: 'IV'
+        }[this.state.classes[taggedEmail]]
 
-      // Get Names
-      database.ref('/names').once('value').then((snapshot) => {
-        const names = snapshot.val();
-
-        // Get Classes
-        database.ref('/classes').once('value').then((snapshot) => {
-          const classes = snapshot.val();
-
-          for (var key in tags) {
-            const tag = tags[key];
-            const taggedEmail = tag.tagged;
-            const classString = {
-              1: 'I',
-              2: 'II',
-              3: 'III',
-              4: 'IV'
-            }[classes[taggedEmail]]
-  
-            people.push({
-              name: names[taggedEmail],
-              class: classString,
-              timestamp: tag.timestamp
-            });
-          }
-
-          this.setState({
-            people: people
-          });
+        outPeople.push({
+          name: this.state.names[taggedEmail],
+          class: classString,
+          timestamp: tag.timestamp
         });
+      }
+
+      this.setState({
+        outPeople: outPeople
       });
 
     });
@@ -271,7 +282,7 @@ class App extends Component {
               {numTags}
               {target}
               {outButton}
-              {(this.state.user === null) ? null : <OutList people={this.state.people} />}
+              {(this.state.user === null) ? null : <OutList people={this.state.outPeople} />}
               <br/>
             </div>
           </div>
