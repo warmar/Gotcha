@@ -36,7 +36,7 @@ class HelpBox extends Component {
                 <br/>
                 Banned Behavior:
                 <ul>
-                <li>No excessing physicality (no injuring anyone)</li>
+                <li>No excessive physicality (no injuring anyone)</li>
                 <li>No barricading</li>
                 <li>No taking others' possessions hostage</li>
                 <li>No taking hostages</li>
