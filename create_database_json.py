@@ -12,7 +12,7 @@ with open('people.csv' if not TEST else 'people-test.csv', 'r') as people_file:
     raw_people = people_file.read()
 
 people = []
-for person in raw_people.split('\n')[1:]:
+for person in raw_people.split('\n'):
     email, name, class_number, year = person.split(',')
     email = email.replace('.', '')
     person = {
