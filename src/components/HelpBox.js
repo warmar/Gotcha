@@ -6,7 +6,7 @@ class HelpBox extends Component {
   render() {
     return (
         <div className="help-box" onClick={this.props.hideHelp}>
-            <div className="help-box-content centered">
+            <div className="help-box-content">
                 <span className="hide-help-button" onClick={this.props.hideHelp}>X</span>
                 Rules:
                 <br/>
