@@ -2,30 +2,30 @@
   "rules": {
     "gotout": {
       "$email": {
-        ".write": "$email === auth.email.replace('.','')"
+        ".write": "$email === auth.email.toLowerCase().replace('.','')"
       }
     },
     "targets": {
       "$email": {
-        ".read": "$email === auth.email.replace('.','')"
+        ".read": "$email === auth.email.toLowerCase().replace('.','')"
       }
     },
     "out": {
       "$email": {
-        ".read": "$email === auth.email.replace('.','')"
+        ".read": "$email === auth.email.toLowerCase().replace('.','')"
       }
     },
     "names": {
-      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
+      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
     },
     "classes": {
-      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
+      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
     },
     "numTags": {
-      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
+      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
     },
     "tags": {
-      ".read": "auth.email.matches(/.*@milton\\.edu$/)"
+      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
     },
     ".read": "false",
     ".write": "false"

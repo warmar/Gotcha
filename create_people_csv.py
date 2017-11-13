@@ -13,7 +13,7 @@ for person in people.values:
     # Email, Name, Class, Graduation Year
     line = ''
 
-    line += person[4] + ','
+    line += person[4].lower() + ','
     line += '%s %s' % (person[2], person[1]) + ','
     line += {2018: '1', 2019: '2', 2020: '3', 2021: '4'}[person[0]] + ','
     line += str(person[0])
