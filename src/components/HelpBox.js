@@ -48,10 +48,9 @@ class HelpBox extends Component {
                 <br/>
                 <br/>
 
-                Created By Peter Marangos
+                Created By Peter Marangos with help from Mr. Hales
                 <br/>
-                <br/>
-                With help from these people:
+                and these people:
                 <br/>
                 Jeffrey Cao, Zoe Camaya, Zac Mustin, Max Hui
                 <br/>
