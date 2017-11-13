@@ -160,69 +160,86 @@ class App extends Component {
       });
     });
 
-    // Leaders
+    // Leaders and Outs
     database.ref('/numTags').on('value', (snapshot) => {
-      const people = snapshot.val();
+      // Leaders
+      const peopleNumTags = snapshot.val();
 
-      if (!people) {
-        return null;
-      }
-
-      var leaders = [];
-      for (var email in people) {
-        const numTags = people[email];
-
-        if (!numTags > 0){
-          continue;
+      // Outs
+      database.ref('/tags').once('value').then((snapshot) => {
+        // Update Out List
+        const tags = snapshot.val();
+  
+        if (!tags) {
+          return null;
         }
-
-        const classString = {
-          1: 'I',
-          2: 'II',
-          3: 'III',
-          4: 'IV'
-        }[this.state.classes[email]]
-
-        leaders.push({
-          name: this.state.names[email],
-          class: classString,
-          tags: numTags
+  
+        var outPeople = [];
+        for (var key in tags) {
+          const tag = tags[key];
+          const taggedEmail = tag.tagged;
+          const classString = {
+            1: 'I',
+            2: 'II',
+            3: 'III',
+            4: 'IV'
+          }[this.state.classes[taggedEmail]]
+  
+          outPeople.push({
+            email: taggedEmail,
+            name: this.state.names[taggedEmail],
+            class: classString,
+            timestamp: tag.timestamp
+          });
+        }
+        this.setState({
+          outPeople: outPeople
         });
-      }
-      this.setState({
-        leaders: leaders
-      });
-    });
 
-    // Outs
-    database.ref('/tags').on('value', (snapshot) => {
-      const tags = snapshot.val();
+        // Update Leaderboard
+        if (!peopleNumTags) {
+          return null;
+        }
+  
+        var leaders = [];
+        for (var email in peopleNumTags) {
+          const numTags = peopleNumTags[email];
+  
+          // Only display people with at least 1 tag
+          if (!numTags > 0){
+            continue;
+          }
 
-      if (!tags) {
-        return null;
-      }
-
-      var outPeople = [];
-      for (var key in tags) {
-        const tag = tags[key];
-        const taggedEmail = tag.tagged;
-        const classString = {
-          1: 'I',
-          2: 'II',
-          3: 'III',
-          4: 'IV'
-        }[this.state.classes[taggedEmail]]
-
-        outPeople.push({
-          name: this.state.names[taggedEmail],
-          class: classString,
-          timestamp: tag.timestamp
+          // Don't display people who are out
+          var out = false;
+          for (var i=0; i<this.state.outPeople.length; i++){
+            if (email === this.state.outPeople[i].email){
+              out = true;
+              break;
+            }
+          }
+          if (out){
+            continue;
+          }
+  
+          const classString = {
+            1: 'I',
+            2: 'II',
+            3: 'III',
+            4: 'IV'
+          }[this.state.classes[email]]
+  
+          leaders.push({
+            name: this.state.names[email],
+            class: classString,
+            tags: numTags
+          });
+        }
+        this.setState({
+          leaders: leaders
         });
-      }
-      this.setState({
-        outPeople: outPeople
       });
-    });
+    });    
   }
 
   render() {
