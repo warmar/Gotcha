@@ -11,17 +11,40 @@ class HelpBox extends Component {
                 Rules:
                 <br/>
                 <br/>
-                You can tag in:
-                <ul>
-                    <li>The Student center</li>
-                </ul>
-
+                Tagging must be between 8:20 AM and 4:00 PM
+                <br/>
+                Except Monday (between 10:15 AM and 4:00 PM)
+                <br/>
                 <br/>
                 You can NOT tag in:
                 <ul>
-                    <li>Classrooms</li>
+                <li>Sidewalks or any areas near streets or cars (parking lots included)</li>
+                <li>Classrooms</li>
+                <li>Ware Staircases</li>
+                <li>Dining Halls</li>
+                <li>The Library</li>
+                <li>All Bathrooms</li>
+                <li>Dorms</li>
+                <li>Quad between Ware and Library</li>
+                <li>The Weight Room</li>
+                <li>Admissions Hallway</li>
+                <li>Pritzker</li>
+                <li>Lockerrooms</li>
+                <li>The walkway between the student center and forbes during 4th-6th period on Oxfam day (November 14th)</li>
                 </ul>
 
+                <br/>
+                Banned Behavior:
+                <ul>
+                <li>No excessing physicality (no injuring anyone)</li>
+                <li>No barricading</li>
+                <li>No taking others' possessions hostage</li>
+                <li>No taking hostages</li>
+                <li>No bribes</li>
+                <li>No missing classes</li>
+                <li>No disrupting classes</li>
+                <li>No running near streets or sidewalks</li>
+                </ul>
                 <br/>
                 <br/>
 

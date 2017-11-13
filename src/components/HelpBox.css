@@ -20,7 +20,8 @@
 
     white-space: normal;
 
-    background: rgba(200, 112, 255, 1);
+    background: rgb(85, 21, 132);
+    color: lightgrey;
     box-shadow: 0 0 2px 1px white;
     z-index: 2;
 }
