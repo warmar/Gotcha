@@ -4,7 +4,8 @@ import * as firebase from 'firebase';
 import OutButton from './components/OutButton';
 import SignInButton from './components/SignInButton';
 import TopIconButton from './components/TopIconButton';
-import Leaderboard from './components/Leaderboard'
+import HelpBox from './components/HelpBox';
+import Leaderboard from './components/Leaderboard';
 import OutList from './components/OutList';
 
 var config = {
@@ -29,11 +30,14 @@ class App extends Component {
       names: null,
       classes: null,
       outPeople: [],
-      leaders: []
+      leaders: [],
+      help: false
     };
 
     this.login = this.login.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.showHelp = this.showHelp.bind(this);
+    this.hideHelp = this.hideHelp.bind(this);
     this.gotOut = this.gotOut.bind(this);
     this.registerDatabaseListeners = this.registerDatabaseListeners.bind(this);
   }
@@ -69,7 +73,8 @@ class App extends Component {
         names: null,
         classes: null,
         outPeople: [],
-        leaders: []
+        leaders: [],
+        help: false
       });
     }).catch((error) => {
       // An error happened.
@@ -78,8 +83,15 @@ class App extends Component {
   }
 
   showHelp() {
-    //TODO: SHOW HELP PAGE
-    alert('help.');
+    this.setState({
+      help: true
+    })
+  }
+
+  hideHelp() {
+    this.setState({
+      help: false
+    })
   }
 
   gotOut() {
@@ -309,6 +321,7 @@ class App extends Component {
           </div>
 
           <div className="main-body-content">
+            {this.state.help ? <HelpBox hideHelp={this.hideHelp} /> : null}
             {signInButton}
             {helpButton}
             {signOutButton}
