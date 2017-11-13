@@ -336,6 +336,7 @@ class App extends Component {
               {numTags}
               {target}
               {outButton}
+              <br/>
               {(this.state.user === null) ? null : <Leaderboard people={this.state.leaders} />}
               {(this.state.user === null) ? null : <OutList people={this.state.outPeople} />}
               <br/>
