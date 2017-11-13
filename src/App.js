@@ -95,8 +95,12 @@ class App extends Component {
   }
 
   gotOut() {
-    var database = firebase.database();
-    return database.ref(`/gotout/${this.state.user.email.replace('.', '')}`).set(true);
+    if (window.confirm("Are you sure you want to get out?")){
+      if (window.confirm("Are you absolutely sure? (This is irreversible)")){
+        var database = firebase.database();
+        return database.ref(`/gotout/${this.state.user.email.replace('.', '')}`).set(true);
+      }
+    }
   }
 
   registerDatabaseListeners() {
