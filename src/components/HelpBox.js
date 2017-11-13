@@ -20,7 +20,7 @@ class HelpBox extends Component {
                 <ul>
                 <li>Sidewalks or any areas near streets or cars (parking lots included)</li>
                 <li>Classrooms</li>
-                <li>Ware Staircases</li>
+                <li>All of Ware</li>
                 <li>Dining Halls</li>
                 <li>The Library</li>
                 <li>All Bathrooms</li>
