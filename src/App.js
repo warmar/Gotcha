@@ -320,7 +320,7 @@ class App extends Component {
         <div className="main-body">
           <div className="main-body-background">
             <video className="background-video" poster={require('./images/background-poster.jpg')} autoPlay loop muted playsInline>
-              <source src={require('./images/background-video.mp4')} type="video/mp4" />
+              <source src={require('./images/new-background-video.webm')} type="video/webm" />
             </video>
           </div>
 
