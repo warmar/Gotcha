@@ -19,9 +19,8 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  defaultState(){
+    return {
       user: null,
       unknownUser: null,
       target: null,
@@ -31,8 +30,15 @@ class App extends Component {
       classes: null,
       outPeople: [],
       leaders: [],
+      numTotal: null,
+      numOut: null,
       help: false
-    };
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = this.defaultState();
 
     this.login = this.login.bind(this);
     this.signOut = this.signOut.bind(this);
@@ -64,18 +70,7 @@ class App extends Component {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
       console.log('Successfully signed out')
-      this.setState({
-        user: null,
-        unknownUser: null,
-        target: null,
-        numTags: null,
-        out: null,
-        names: null,
-        classes: null,
-        outPeople: [],
-        leaders: [],
-        help: false
-      });
+      this.setState(this.defaultState());
     }).catch((error) => {
       // An error happened.
       console.log('Error while signing out')
@@ -175,6 +170,7 @@ class App extends Component {
         }
   
         var outPeople = [];
+        var numOut = 0;
         for (var key in tags) {
           const tag = tags[key];
           const taggedEmail = tag.tagged;
@@ -191,10 +187,8 @@ class App extends Component {
             class: classString,
             timestamp: tag.timestamp
           });
+          numOut++;
         }
-        this.setState({
-          outPeople: outPeople
-        });
 
         // Update Leaderboard
         if (!peopleNumTags) {
@@ -202,8 +196,10 @@ class App extends Component {
         }
   
         var leaders = [];
+        var numTotal = 0;
         for (var email in peopleNumTags) {
           const numTags = peopleNumTags[email];
+          numTotal++;
   
           // Only display people with at least 1 tag
           if (!numTags > 0){
@@ -236,7 +232,10 @@ class App extends Component {
           });
         }
         this.setState({
-          leaders: leaders
+          outPeople: outPeople,
+          leaders: leaders,
+          numTotal: numTotal,
+          numOut: numOut
         });
       });
     });    
@@ -329,6 +328,18 @@ class App extends Component {
         </div>;
     }
 
+    
+    
+    // Num Out
+    var numOutText = null;
+    if (this.state.user !== null) {
+      numOutText = 
+        <div>
+          <br/>
+          There are {this.state.numOut} out of {this.state.numTotal} people out.
+        </div>;
+    }
+
     return (
       <div className="App">
         <div className="title-bar">
@@ -356,6 +367,7 @@ class App extends Component {
               <br/>
               {(this.state.user === null) ? null : <Leaderboard people={this.state.leaders} />}
               {(this.state.user === null) ? null : <OutList people={this.state.outPeople} />}
+              {numOutText}
               <br/>
             </div>
           </div>
