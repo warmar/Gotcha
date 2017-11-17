@@ -40,6 +40,8 @@ class App extends Component {
     super(props);
     this.state = this.defaultState();
 
+    this.contactEmail = "warwick_marangos18@milton.edu"
+
     this.login = this.login.bind(this);
     this.signOut = this.signOut.bind(this);
     this.showHelp = this.showHelp.bind(this);
@@ -189,6 +191,10 @@ class App extends Component {
           });
           numOut++;
         }
+        this.setState({
+          outPeople: outPeople,
+          numOut: numOut
+        });
 
         // Update Leaderboard
         if (!peopleNumTags) {
@@ -232,10 +238,8 @@ class App extends Component {
           });
         }
         this.setState({
-          outPeople: outPeople,
           leaders: leaders,
-          numTotal: numTotal,
-          numOut: numOut
+          numTotal: numTotal
         });
       });
     });    
@@ -280,7 +284,7 @@ class App extends Component {
         <br/>
         Please contact
         <br/>
-        warwick_marangos18@milton.edu
+        {this.contactEmail}
         <br/>
         if you believe this is an error.
       </div>
@@ -353,7 +357,7 @@ class App extends Component {
           </div>
 
           <div className="main-body-content">
-            {this.state.help ? <HelpBox hideHelp={this.hideHelp} /> : null}
+            {this.state.help ? <HelpBox hideHelp={this.hideHelp} contactEmail={this.contactEmail} /> : null}
             {signInButton}
             {helpButton}
             {signOutButton}

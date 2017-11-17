@@ -55,10 +55,7 @@ class HelpBox extends Component {
                 Jeffrey Cao, Zoe Camaya, Zac Mustin, Max Hui
                 <br/>
                 <br/>
-                If you have any problems, please contact warwick_marangos18@milton.edu
-                <br/>
-                <br/>
-                P.S. Sorry that this info page is so ugly I had like 0 time to make a nicer one.
+                If you have any problems, please contact {this.props.contactEmail}
             </div>
         </div>
     );
