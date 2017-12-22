@@ -32,4 +32,3 @@ while True:
 
 print('Num Checked: ', num)
 print('Total: ', len(db['targets']))
-
