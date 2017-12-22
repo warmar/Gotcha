@@ -29,4 +29,5 @@ functions/node_modules/
 # mymisc
 database.json
 people.csv
+gotcha.csv
 database_backups/
