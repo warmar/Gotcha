@@ -16,16 +16,16 @@
       }
     },
     "names": {
-      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
+      ".read": "root.child('names').child(auth.email.toLowerCase().replace('.','')).exists()"
     },
     "classes": {
-      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
+      ".read": "root.child('names').child(auth.email.toLowerCase().replace('.','')).exists()"
     },
     "numTags": {
-      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
+      ".read": "root.child('names').child(auth.email.toLowerCase().replace('.','')).exists()"
     },
     "tags": {
-      ".read": "auth.email.toLowerCase().matches(/.*@milton\\.edu$/)"
+      ".read": "root.child('names').child(auth.email.toLowerCase().replace('.','')).exists()"
     },
     ".read": "false",
     ".write": "false"
