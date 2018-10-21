@@ -40,7 +40,7 @@ class App extends Component {
     super(props);
     this.state = this.defaultState();
 
-    this.contactEmail = "warwick_marangos18@milton.edu"
+    this.contactEmail = "warwick.marangos@gmail.com"
 
     this.login = this.login.bind(this);
     this.signOut = this.signOut.bind(this);
@@ -162,12 +162,19 @@ class App extends Component {
       // Leaders
       const peopleNumTags = snapshot.val();
 
+      this.setState({
+        numTotal: Object.keys(peopleNumTags).length
+      })
+
       // Outs
       database.ref('/tags').once('value').then((snapshot) => {
         // Update Out List
         const tags = snapshot.val();
   
         if (!tags) {
+          this.setState({
+            numOut: 0
+          })
           return null;
         }
   
@@ -202,10 +209,8 @@ class App extends Component {
         }
   
         var leaders = [];
-        var numTotal = 0;
         for (var email in peopleNumTags) {
           const numTags = peopleNumTags[email];
-          numTotal++;
   
           // Only display people with at least 1 tag
           if (!numTags > 0){
@@ -238,8 +243,7 @@ class App extends Component {
           });
         }
         this.setState({
-          leaders: leaders,
-          numTotal: numTotal
+          leaders: leaders
         });
       });
     });    
