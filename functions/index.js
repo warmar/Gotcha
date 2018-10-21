@@ -11,14 +11,14 @@ admin.initializeApp(functions.config().firebase);
 
 const ref = admin.database().ref();
 
-exports.onGotOut = functions.database.ref('/gotout/{email}').onWrite(event => {
-    console.log(event);
+exports.onGotOut = functions.database.ref('/gotout/{email}').onWrite((change, context) => {
+    console.log(change);
   
-    if (event.data.current.val() !== true){
+    if (change.after.val() !== true){
         return null;
     }
 
-    const taggedEmail = event.params.email;
+    const taggedEmail = context.params.email;
 
     // Get tagger's email
     const allPromises = ref.child(`/taggers/${taggedEmail}`).once('value').then((snapshot) => {
