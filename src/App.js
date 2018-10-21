@@ -95,14 +95,14 @@ class App extends Component {
     if (window.confirm("Are you sure you want to get out?")){
       if (window.confirm("Are you absolutely sure? (This is irreversible)")){
         var database = firebase.database();
-        return database.ref(`/gotout/${this.state.user.email.replace('.', '')}`).set(true);
+        return database.ref(`/gotout/${this.state.user.email.replace(/\./g, '')}`).set(true)
       }
     }
   }
 
   registerDatabaseListeners() {
     var database = firebase.database();
-    var email = this.state.user.email.replace('.', '');
+    var email = this.state.user.email.replace(/\./g, '');
 
     // Get Out Status
     database.ref(`/out/${email}`).on('value', (snapshot) => {
