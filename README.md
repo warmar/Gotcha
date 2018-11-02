@@ -1,4 +1,4 @@
-A school-wide tag game for hackNEHS
+A school-wide tag game
 Made using Firebase and React
 
 Note:
